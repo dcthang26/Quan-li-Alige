@@ -1,0 +1,13 @@
+{
+    "name": "admin/demo-composer",
+    "authors": [
+        {
+            "name": "Nguyễn Thư Quân",
+            "email": "nguyenthuquan99@gmail.com"
+        }
+    ],
+    "require": {
+        "nesbot/carbon": "^3.11",
+        "phpmailer/phpmailer": "^7.0"
+    }
+}
