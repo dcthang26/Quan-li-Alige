@@ -1,13 +1,23 @@
 {
-    "name": "admin/demo-composer",
+    "name": "admin/base-exam-php3",
+    "type": "project",
+    "license": "MIT",
     "authors": [
         {
             "name": "Nguyễn Thư Quân",
             "email": "nguyenthuquan99@gmail.com"
         }
     ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
     "require": {
-        "nesbot/carbon": "^3.11",
-        "phpmailer/phpmailer": "^7.0"
+        "phpmailer/phpmailer": "dev-master",
+        "bramus/router": "dev-master",
+        "nesbot/carbon": "^3.0@dev",
+        "eftec/bladeone": "dev-master"
     }
 }

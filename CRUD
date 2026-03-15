@@ -1,0 +1,22 @@
+M: model -> đặt tên class phải là PascalCase. Ví dụ: Class HinhChuNhat
+C: controller -> đặt tên class phải là PascalCase. Ví dụ: Class HinhChuNhatController
+V: view -> Réource/views
+        ->views
+index.php: tất cả route đều chạy qua file này
+routes/route.php: viết các route ở đây
+env.php: file chứa các biến const như cấu hình DB, APP_URL,....
+
+thứ tự làm code:
+Bước 1: tạo URL trong route, ví dụ như
+Bước 2: tạo controller. ví dụ ProductsController trong thư mục Controller/admin/ với namespace (tên đường dẫn thư mực là namespace App\Controller\Admin);
+Bước 3: viết model
+Bước 4: viết view
+Bước 5: vào controller để gọi model và đỗ dữ liệu ra view
+
+
+
+
+
+
+
+
