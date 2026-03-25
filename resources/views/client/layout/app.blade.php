@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>@yield('title', 'Danh sách sản phẩm')</title>
+    <style>
+        :root { --blue: #1565C0; --blue-light: #1976D2; --blue-dark: #0D47A1; }
+
+        body { background-color: #f0f4ff; }
+        .navbar { box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+        .footer { background-color: #0D47A1; color: white; margin-top: 50px; padding: 30px 0; }
+
+        /* Home - product cards */
+        .product-card { transition: transform 0.3s, box-shadow 0.3s; border: none; height: 100%; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 5px 20px rgba(21,101,192,.2); }
+        .product-image { height: 250px; object-fit: cover; border-radius: 8px 8px 0 0; }
+        .product-price { color: #dc3545; font-size: 1.3rem; font-weight: bold; }
+
+        /* Shared user pages */
+        .page-banner { background: linear-gradient(135deg, var(--blue-dark), var(--blue-light)); color: #fff; padding: 32px; border-radius: 16px; margin-bottom: 28px; }
+        .btn-blue { background: var(--blue); color: #fff; border: none; }
+        .btn-blue:hover { background: var(--blue-dark); color: #fff; }
+
+        /* Profile */
+        .profile-hero { background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-light) 100%); color: #fff; padding: 48px 0 32px; }
+        .avatar-wrap { position: relative; width: 110px; height: 110px; }
+        .avatar-img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 4px solid rgba(255,255,255,.5); }
+        .avatar-circle { width: 110px; height: 110px; border-radius: 50%; background: #fff; color: var(--blue); font-size: 2.5rem; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 4px solid rgba(255,255,255,.4); }
+        .avatar-edit-btn { position: absolute; bottom: 4px; right: 4px; background: var(--blue); color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: .85rem; border: 2px solid #fff; transition: background .2s; }
+        .avatar-edit-btn:hover { background: var(--blue-dark); }
+        .profile-card { border: none; border-radius: 16px; box-shadow: 0 4px 24px rgba(21,101,192,.12); }
+        .profile-card .card-header { background: var(--blue); color: #fff; border-radius: 16px 16px 0 0; font-weight: 600; }
+        .info-label { color: #888; font-size: .82rem; text-transform: uppercase; letter-spacing: .5px; }
+        .badge-role { background: var(--blue); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: .8rem; }
+        .stat-box { border-radius: 12px; padding: 20px; text-align: center; background: #f0f4ff; border: 1px solid #dce8ff; }
+        .stat-box .stat-num { font-size: 2rem; font-weight: 700; color: var(--blue); }
+        .stat-box .stat-label { color: #555; font-size: .85rem; }
+
+        /* Cart */
+        .cart-table thead { background: var(--blue); color: #fff; }
+        .cart-table thead th { font-weight: 500; border: none; padding: 14px 16px; }
+        .cart-table tbody tr { vertical-align: middle; }
+        .cart-table tbody tr:hover { background: #f0f4ff; }
+        .cart-table td { padding: 14px 16px; border-color: #e8eef8; }
+        .product-thumb { width: 70px; height: 70px; object-fit: cover; border-radius: 10px; border: 2px solid #dce8ff; }
+        .product-thumb-placeholder { width: 70px; height: 70px; border-radius: 10px; background: #e8eef8; display: flex; align-items: center; justify-content: center; color: #aaa; }
+        .qty-input { width: 70px; text-align: center; border: 1.5px solid #1976D2; border-radius: 8px; padding: 4px 8px; }
+        .qty-input:focus { outline: none; border-color: var(--blue-dark); box-shadow: 0 0 0 3px rgba(21,101,192,.15); }
+        .summary-card { border: none; border-radius: 16px; box-shadow: 0 4px 24px rgba(21,101,192,.12); position: sticky; top: 80px; }
+        .summary-card .card-header { background: var(--blue); color: #fff; border-radius: 16px 16px 0 0; font-weight: 600; }
+        .summary-total { font-size: 1.3rem; font-weight: 700; color: var(--blue); }
+        .btn-checkout { background: var(--blue); color: #fff; border: none; border-radius: 10px; padding: 12px; font-size: 1rem; font-weight: 600; width: 100%; }
+        .btn-checkout:hover { background: var(--blue-dark); color: #fff; }
+        .btn-remove { background: none; border: none; color: #dc3545; font-size: 1.1rem; padding: 4px 8px; border-radius: 6px; }
+        .btn-remove:hover { background: #ffeaea; }
+        .empty-cart, .empty-orders { text-align: center; padding: 60px 20px; color: #888; }
+        .empty-cart i, .empty-orders i { font-size: 4rem; color: #dce8ff; margin-bottom: 16px; }
+
+        /* Product detail */
+        .product-img-wrap { border-radius: 16px; overflow: hidden; background: #f0f4ff; border: 2px solid #dce8ff; }
+        .product-img-wrap img { width: 100%; height: 420px; object-fit: cover; }
+        .product-img-placeholder { height: 420px; display: flex; align-items: center; justify-content: center; color: #aac; font-size: 5rem; }
+        .product-title { font-size: 1.8rem; font-weight: 700; color: #111; }
+        .detail-price { font-size: 2rem; font-weight: 800; color: var(--blue); }
+        .badge-stock { background: #e8f5e9; color: #2e7d32; border-radius: 20px; padding: 4px 14px; font-size: .82rem; font-weight: 600; }
+        .badge-stock.out { background: #ffeaea; color: #c62828; }
+        .qty-wrap { display: flex; align-items: center; border: 1.5px solid var(--blue); border-radius: 10px; overflow: hidden; width: fit-content; }
+        .qty-wrap button { background: var(--blue); color: #fff; border: none; width: 38px; height: 38px; font-size: 1.1rem; cursor: pointer; }
+        .qty-wrap button:hover { background: var(--blue-dark); }
+        .qty-wrap input { width: 56px; text-align: center; border: none; border-left: 1.5px solid var(--blue); border-right: 1.5px solid var(--blue); height: 38px; font-weight: 600; }
+        .qty-wrap input:focus { outline: none; }
+        .btn-add-cart { background: var(--blue); color: #fff; border: none; border-radius: 10px; padding: 12px 32px; font-size: 1rem; font-weight: 600; }
+        .btn-add-cart:hover { background: var(--blue-dark); color: #fff; }
+        .btn-buy-now { background: #111; color: #fff; border: none; border-radius: 10px; padding: 12px 32px; font-size: 1rem; font-weight: 600; }
+        .btn-buy-now:hover { background: #333; color: #fff; }
+        .desc-card { border: none; border-radius: 16px; box-shadow: 0 2px 16px rgba(21,101,192,.08); }
+        .desc-card .card-header { background: var(--blue); color: #fff; border-radius: 16px 16px 0 0; font-weight: 600; }
+        .related-card { border: none; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.07); transition: transform .25s, box-shadow .25s; }
+        .related-card:hover { transform: translateY(-4px); box-shadow: 0 6px 20px rgba(21,101,192,.15); }
+        .related-img { height: 180px; object-fit: cover; border-radius: 12px 12px 0 0; }
+        .related-price { color: var(--blue); font-weight: 700; }
+
+        /* Orders */
+        .order-card { border: none; border-radius: 14px; box-shadow: 0 2px 16px rgba(21,101,192,.09); margin-bottom: 20px; transition: box-shadow .2s; }
+        .order-card:hover { box-shadow: 0 6px 24px rgba(21,101,192,.18); }
+        .order-header { background: #f0f4ff; border-radius: 14px 14px 0 0; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid #dce8ff; }
+        .order-id { font-weight: 700; color: var(--blue); font-size: 1rem; }
+        .order-date { color: #888; font-size: .85rem; }
+        .order-body { padding: 20px; }
+        .order-total { font-size: 1.2rem; font-weight: 700; color: var(--blue); }
+        .status-badge { padding: 5px 16px; border-radius: 20px; font-size: .8rem; font-weight: 600; }
+        .status-pending { background: #fff8e1; color: #f57f17; }
+        .status-processing { background: #e3f2fd; color: #1565C0; }
+        .status-shipping { background: #ede7f6; color: #6a1b9a; }
+        .status-completed { background: #e8f5e9; color: #2e7d32; }
+        .status-cancelled { background: #ffeaea; color: #c62828; }
+        .filter-tabs .nav-link { color: #555; border-radius: 8px; padding: 6px 18px; }
+        .filter-tabs .nav-link.active { background: var(--blue); color: #fff; }
+        .payment-option:has(input:checked) { border-color: var(--blue) !important; background: #f0f4ff; }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#0D47A1">
+        <div class="container">
+            <a class="navbar-brand" href="{{ APP_URL }}"><i class="fas fa-store"></i> Shop</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ APP_URL }}list">Danh sách sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Liên hệ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Về chúng tôi</a>
+                    </li>
+                    @if(isset($_SESSION['user']))
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="{{ APP_URL }}/user/cart">
+                            <i class="fas fa-shopping-cart"></i> Giỏ hàng
+                            @if(!empty($_SESSION['cart']) && count($_SESSION['cart']) > 0)
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:.65rem">{{ array_sum(array_column($_SESSION['cart'], 'quantity')) }}</span>
+                            @endif
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> {{ $_SESSION['user']->name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{{ APP_URL }}/user/profile"><i class="fas fa-user me-2"></i>Hồ sơ</a></li>
+                            <li><a class="dropdown-item" href="{{ APP_URL }}/user/orders"><i class="fas fa-box me-2"></i>Đơn hàng</a></li>
+                            @if($_SESSION['user']->role === 'admin')
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ APP_URL }}/admin/products"><i class="fas fa-cogs me-2"></i>Admin Panel</a></li>
+                            @endif
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="{{ APP_URL }}/logout"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
+                        </ul>
+                    </li>
+                    @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ APP_URL }}/login"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a>
+                    </li>
+                    @endif
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-5">
+        <div class="container">
+            @yield('content')
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Về Shop</h5>
+                    <p>Cửa hàng bán các sản phẩm chất lượng cao với giá cả hợp lý.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Liên hệ</h5>
+                    <p>Email: nhatlinhp9@gmail.com<br>Phone: 0345102482</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Theo dõi</h5>
+                    <a href="#" class="text-white me-2"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <hr class="bg-white">
+            <div class="text-center">
+                <p>&copy; 2026 Shop. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script>
+    const avatarInput = document.getElementById('avatarInput');
+    if (avatarInput) {
+        avatarInput.addEventListener('change', function () {
+            if (!this.files[0]) return;
+            const preview = document.getElementById('avatarPreview');
+            const reader = new FileReader();
+            reader.onload = e => {
+                if (preview.tagName === 'IMG') {
+                    preview.src = e.target.result;
+                } else {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'avatar-img';
+                    img.id = 'avatarPreview';
+                    preview.replaceWith(img);
+                }
+            };
+            reader.readAsDataURL(this.files[0]);
+            document.getElementById('avatarForm').submit();
+        });
+    }
+</script>
+@yield('js')
+</body>
+
+</html>

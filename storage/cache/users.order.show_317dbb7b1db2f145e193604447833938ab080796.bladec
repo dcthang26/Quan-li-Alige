@@ -1,0 +1,99 @@
+<?php $_shouldextend[1]=1; ?>
+<?php $this->startSection('title', 'Chi tiết đơn hàng #' . $order->id); ?>
+<?php $this->startSection('content'); ?>
+
+<div class="page-banner d-flex align-items-center gap-3">
+ <i class="fas fa-receipt fa-2x"></i>
+ <div>
+ <h4 class="mb-0 fw-bold">Chi tiết đơn hàng #<?php echo \htmlentities($order->id??'', ENT_QUOTES, 'UTF-8', false); ?></h4>
+ <small class="opacity-75"><?php echo \htmlentities(date('d/m/Y H:i', strtotime($order->created_at))??'', ENT_QUOTES, 'UTF-8', false); ?></small>
+ </div>
+</div>
+
+<?php 
+ $statusMap = [
+ 'pending'    => ['label' => 'Chờ xác nhận', 'class' => 'status-pending',    'icon' => 'fa-clock'],
+ 'processing' => ['label' => 'Chuẩn bị hàng','class' => 'status-processing', 'icon' => 'fa-box'],
+ 'shipping'   => ['label' => 'Đang giao',    'class' => 'status-shipping',   'icon' => 'fa-truck'],
+ 'completed'  => ['label' => 'Hoàn thành',   'class' => 'status-completed',  'icon' => 'fa-check-circle'],
+ 'cancelled'  => ['label' => 'Đã hủy',       'class' => 'status-cancelled',  'icon' => 'fa-times-circle'],
+ ];
+ $steps = ['pending', 'processing', 'shipping', 'completed'];
+ $currentIndex = array_search($order->status, $steps);
+ $s = $statusMap[$order->status] ?? ['label' => $order->status, 'class' => 'status-pending', 'icon' => 'fa-circle'];
+ ?>
+
+<?php /* Timeline trạng thái */ ?>
+<?php if($order->status !== 'cancelled'): ?>
+<div class="card border-0 shadow-sm rounded-4 mb-4 p-4">
+ <div class="d-flex justify-content-between align-items-start position-relative">
+ <div class="progress position-absolute" style="top:20px;left:10%;right:10%;height:4px;z-index:0">
+ <div class="progress-bar bg-primary" style="width:<?php echo \htmlentities($currentIndex === false ? 0 : ($currentIndex / (count($steps)-1)) * 100??'', ENT_QUOTES, 'UTF-8', false); ?>%"></div>
+ </div>
+ <?php $__currentLoopData = $steps; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $i => $step): $loop = $this->incrementLoopIndices();  ?>
+ <?php 
+ $done = $currentIndex !== false && $i <= $currentIndex;
+ $info = $statusMap[$step];
+ ?>
+ <div class="text-center flex-fill position-relative" style="z-index:1">
+ <div class="mx-auto d-flex align-items-center justify-content-center rounded-circle mb-2"
+ style="width:42px;height:42px;background:<?php echo \htmlentities($done ? '#1565C0' : '#e0e0e0'??'', ENT_QUOTES, 'UTF-8', false); ?>;color:<?php echo \htmlentities($done ? '#fff' : '#999'??'', ENT_QUOTES, 'UTF-8', false); ?>">
+ <i class="fas <?php echo \htmlentities($info['icon']??'', ENT_QUOTES, 'UTF-8', false); ?>"></i>
+ </div>
+ <small class="fw-semibold" style="color:<?php echo \htmlentities($done ? '#1565C0' : '#999'??'', ENT_QUOTES, 'UTF-8', false); ?>"><?php echo \htmlentities($info['label']??'', ENT_QUOTES, 'UTF-8', false); ?></small>
+ </div>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </div>
+</div>
+<?php else: ?>
+<div class="alert alert-danger d-flex align-items-center gap-2 rounded-4">
+ <i class="fas fa-times-circle fa-lg"></i> Đơn hàng này đã bị hủy.
+</div>
+<?php endif; ?>
+
+<div class="row g-4">
+ <?php /* Thông tin đơn */ ?>
+ <div class="col-lg-8">
+ <div class="card border-0 shadow-sm rounded-4">
+ <div class="card-header bg-primary text-white rounded-top-4 fw-semibold">
+ <i class="fas fa-shopping-bag me-2"></i>Sản phẩm trong đơn
+ </div>
+ <div class="card-body p-0">
+ <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
+ <span class="text-muted">Mã đơn hàng</span>
+ <strong>#<?php echo \htmlentities($order->id??'', ENT_QUOTES, 'UTF-8', false); ?></strong>
+ </div>
+ <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
+ <span class="text-muted">Ngày đặt</span>
+ <strong><?php echo \htmlentities(date('d/m/Y H:i', strtotime($order->created_at))??'', ENT_QUOTES, 'UTF-8', false); ?></strong>
+ </div>
+ <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
+ <span class="text-muted">Trạng thái</span>
+ <span class="status-badge <?php echo \htmlentities($s['class']??'', ENT_QUOTES, 'UTF-8', false); ?>"><i class="fas <?php echo \htmlentities($s['icon']??'', ENT_QUOTES, 'UTF-8', false); ?> me-1"></i><?php echo \htmlentities($s['label']??'', ENT_QUOTES, 'UTF-8', false); ?></span>
+ </div>
+ <div class="p-4 d-flex justify-content-between align-items-center">
+ <span class="text-muted">Tổng tiền</span>
+ <strong class="fs-5" style="color:#1565C0"><?php echo \htmlentities(number_format($order->total)??'', ENT_QUOTES, 'UTF-8', false); ?>đ</strong>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <?php /* Hành động */ ?>
+ <div class="col-lg-4">
+ <div class="card border-0 shadow-sm rounded-4 p-4">
+ <h6 class="fw-bold mb-3">Hành động</h6>
+ <?php if($order->status === 'pending'): ?>
+ <form action="<?php echo \htmlentities(APP_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/user/orders/<?php echo \htmlentities($order->id??'', ENT_QUOTES, 'UTF-8', false); ?>/cancel" method="POST" onsubmit="return confirm('Hủy đơn hàng này?')">
+ <button type="submit" class="btn btn-outline-danger w-100 mb-2"><i class="fas fa-times me-2"></i>Hủy đơn hàng</button>
+ </form>
+ <?php endif; ?>
+ <a href="<?php echo \htmlentities(APP_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/user/orders" class="btn btn-outline-secondary w-100"><i class="fas fa-arrow-left me-2"></i>Quay lại</a>
+ </div>
+ </div>
+</div>
+
+<?php $this->stopSection(); ?>
+
+<?php if (isset($_shouldextend[1])) { echo $this->runChild('client.layout.app'); } ?>
