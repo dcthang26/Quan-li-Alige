@@ -1,3 +1,4 @@
+
 @extends('client.layout.app')
 @section('title', 'Đăng ký')
 @section('content')
