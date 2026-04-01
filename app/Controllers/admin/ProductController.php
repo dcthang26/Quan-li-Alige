@@ -4,11 +4,49 @@ namespace App\Controllers\admin;
 class ProductController {
     public function index() {
         $productsModel = new \App\Models\ProductModel();
-        $products = $productsModel->all();
-        //dd($products);
-        //truyền dữ liệu sản phẩm vào view 
-        view('admin.products.listing', ['products' => $products]);
+        $all = $productsModel->all();
+
+        $keyword = trim($_GET['q'] ?? '');
+        $filterSize = trim($_GET['size'] ?? '');
+        $filterSole = trim($_GET['sole'] ?? '');
+
+        $products = array_filter($all, function($item) use ($keyword, $filterSize, $filterSole) {
+            if ($keyword && stripos($item->name, $keyword) === false) return false;
+            if ($filterSize) {
+                $sizes = array_map('trim', explode(',', $item->sizes ?? ''));
+                if (!in_array($filterSize, $sizes)) return false;
+            }
+            if ($filterSole) {
+                $soles = array_map('trim', explode(',', $item->sole ?? ''));
+                if (!in_array($filterSole, $soles)) return false;
+            }
+            return true;
+        });
+        $products = array_values($products);
+
+        // Lấy tất cả size và sole unique để hiện filter
+        $allSizes = [];
+        $allSoles = [];
+        foreach ($all as $item) {
+            foreach (array_map('trim', explode(',', $item->sizes ?? '')) as $s) if ($s) $allSizes[] = $s;
+            foreach (array_map('trim', explode(',', $item->sole ?? '')) as $s) if ($s) $allSoles[] = $s;
+        }
+        $allSizes = array_unique($allSizes);
+        $allSoles = array_unique($allSoles);
+
+        view('admin.products.listing', compact('products', 'keyword', 'filterSize', 'filterSole', 'allSizes', 'allSoles'));
     }
+    public function show($id) {
+        require_admin();
+        $productsModel = new \App\Models\ProductModel();
+        $product = $productsModel->find($id);
+        if (!$product) {
+            $_SESSION['error'] = 'Sản phẩm không tồn tại';
+            return redirect('/admin/products');
+        }
+        view('admin.products.show', compact('product'));
+    }
+
     public function add() {
         view('admin.products.add');
     }
@@ -109,11 +147,35 @@ class ProductController {
     }
 
        
+    public function autoSave($id) {
+        require_admin();
+        header('Content-Type: application/json');
+        $id = intval($id);
+        $allowed = ['name', 'price', 'quantity', 'description', 'sizes', 'colors', 'sole'];
+        $input = json_decode(file_get_contents('php://input'), true) ?? [];
+        $data = array_filter($input, fn($k) => in_array($k, $allowed), ARRAY_FILTER_USE_KEY);
+
+        if (empty($data) || $id <= 0) {
+            echo json_encode(['success' => false, 'message' => 'Dữ liệu không hợp lệ']);
+            exit;
+        }
+
+        try {
+            $productsModel = new \App\Models\ProductModel();
+            $productsModel->update($id, $data);
+            echo json_encode(['success' => true, 'message' => 'Đã lưu']);
+        } catch (\Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'Lỗi lưu']);
+        }
+        exit;
+    }
+
     public function delete($id) { 
         if($id > 0){
             $productsModel = new \App\Models\ProductModel();
+            $product = $productsModel->find($id);
             $productsModel->delete($id);
-            //chuyển hướng về trang danh sách sản phẩm
+            $_SESSION['success'] = 'Xóa sản phẩm "' . ($product->name ?? '') . '" thành công';
             redirect('/admin/products');
         }
     }

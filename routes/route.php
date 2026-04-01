@@ -59,8 +59,10 @@ $router->mount('/admin', function () use ($router) {
     $router->get('/products', ProductController::class . '@index');
     $router->get('/products/add', ProductController::class . '@add');
     $router->post('/products/store', ProductController::class . '@store');
+    $router->get('/products/show/{id}', ProductController::class . '@show');
     $router->get('/products/edit/{id}', ProductController::class . '@edit');
     $router->post('/products/update/{id}', ProductController::class . '@update');
+    $router->post('/products/autosave/{id}', ProductController::class . '@autoSave');
     $router->post('/products/delete/{id}', ProductController::class . '@delete');
 
     $router->get('/users', UserController::class . '@index');
