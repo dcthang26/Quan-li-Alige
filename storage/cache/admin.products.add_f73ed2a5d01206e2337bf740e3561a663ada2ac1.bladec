@@ -55,13 +55,8 @@
  <input type="text" class="form-control" name="colors" placeholder="Đỏ,Xanh,Đen,Trắng">
  </div>
  <div class="mb-3">
- <label class="form-label">Đế giày</label>
- <select class="form-select" name="sole">
- <option value="">-- Chọn loại đế --</option>
- <option value="mềm">Mềm</option>
- <option value="cứng">Cứng</option>
- <option value="dẻo">Dẻo</option>
- </select>
+ <label class="form-label">Đế giày <small class="text-muted">(phân cách bằng dấu phẩy, VD: mềm,cứng,dẻo)</small></label>
+ <input type="text" class="form-control" name="sole" placeholder="mềm,cứng,dẻo">
  </div>
  <button type="submit" name="submit" class="btn btn-primary">Submit</button>
 </form>

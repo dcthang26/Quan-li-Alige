@@ -4,6 +4,20 @@
 
 <h4 class="fw-bold mb-4"><i class="fas fa-list me-2"></i>Danh sách sản phẩm</h4>
 
+<form method="GET" action="{{ APP_URL }}list" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="q" class="form-control" placeholder="Tìm kiếm sản phẩm..." value="{{ $keyword ?? '' }}">
+        <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+        @if(!empty($keyword))
+        <a href="{{ APP_URL }}list" class="btn btn-outline-secondary"><i class="fas fa-times"></i></a>
+        @endif
+    </div>
+</form>
+
+@if(!empty($keyword))
+<p class="text-muted mb-3">Kết quả tìm kiếm cho: <strong>"{{ $keyword }}"</strong> &mdash; {{ count($data) }} sản phẩm</p>
+@endif
+
 @if(count($data) > 0)
 <div class="row">
     @foreach($data as $item)
@@ -44,8 +58,13 @@
 </div>
 @else
 <div class="alert alert-info text-center">
-    <i class="fas fa-inbox fa-3x mb-3"></i>
-    <p>Hiện không có sản phẩm nào</p>
+    <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
+    @if(!empty($keyword))
+        <p>Không tìm thấy sản phẩm nào cho <strong>"{{ $keyword }}"</strong></p>
+        <a href="{{ APP_URL }}list" class="btn btn-outline-primary btn-sm">Xem tất cả sản phẩm</a>
+    @else
+        <p>Hiện không có sản phẩm nào</p>
+    @endif
 </div>
 @endif
 
