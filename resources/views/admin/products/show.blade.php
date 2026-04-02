@@ -11,84 +11,82 @@
 </div>
 
 <div class="row g-4">
-    {{-- Ảnh sản phẩm --}}
-    <div class="col-lg-4">
-        <div class="card border-0 shadow-sm">
+    {{-- Ảnh --}}
+    <div class="col-lg-5">
+        <div class="rounded-3 overflow-hidden border" style="background:#f8f9fa;">
             @if(!empty($product->image))
-                <img src="{{ APP_URL }}{{ $product->image }}" class="card-img-top rounded" style="height:320px;object-fit:cover;" alt="{{ $product->name }}">
+                <img src="{{ APP_URL }}{{ $product->image }}" class="w-100" style="height:420px;object-fit:cover;" alt="{{ $product->name }}">
             @else
-                <div class="d-flex align-items-center justify-content-center bg-light rounded" style="height:320px;">
-                    <i class="fas fa-image fa-4x text-muted"></i>
+                <div class="d-flex align-items-center justify-content-center" style="height:420px;">
+                    <i class="fas fa-image fa-5x text-muted"></i>
                 </div>
             @endif
         </div>
     </div>
 
     {{-- Thông tin --}}
-    <div class="col-lg-8">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body">
-                <h4 class="fw-bold mb-1">{{ $product->name }}</h4>
-                <p class="text-muted mb-3">ID: #{{ $product->id }}</p>
+    <div class="col-lg-7">
+        <h3 class="fw-bold mb-1">{{ $product->name }}</h3>
+        <p class="text-muted mb-3">ID: #{{ $product->id }}</p>
 
-                <div class="row g-3 mb-3">
-                    <div class="col-sm-6">
-                        <div class="p-3 rounded bg-light">
-                            <div class="text-muted small mb-1">Giá bán</div>
-                            <div class="fw-bold fs-5 text-danger">{{ number_format($product->price) }}đ</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="p-3 rounded bg-light">
-                            <div class="text-muted small mb-1">Số lượng tồn kho</div>
-                            <div class="fw-bold fs-5 {{ $product->quantity > 0 ? 'text-success' : 'text-danger' }}">
-                                {{ $product->quantity }}
-                                <small class="fs-6">{{ $product->quantity > 0 ? 'còn hàng' : 'hết hàng' }}</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="fs-2 fw-bold text-danger mb-3">{{ number_format($product->price) }}đ</div>
 
-                <div class="mb-3">
-                    <div class="text-muted small mb-1">Mô tả</div>
-                    <p class="mb-0">{{ $product->description ?: '—' }}</p>
-                </div>
+        <div class="mb-3">
+            @if($product->quantity > 0)
+                <span class="badge bg-success-subtle text-success border border-success px-3 py-2">
+                    <i class="fas fa-check-circle me-1"></i>Còn hàng ({{ $product->quantity }} sản phẩm)
+                </span>
+            @else
+                <span class="badge bg-danger-subtle text-danger border border-danger px-3 py-2">
+                    <i class="fas fa-times-circle me-1"></i>Hết hàng
+                </span>
+            @endif
+        </div>
 
-                <hr>
+        <hr>
 
-                <div class="row g-3">
-                    <div class="col-sm-4">
-                        <div class="text-muted small mb-2">Size</div>
-                        @if(!empty($product->sizes))
-                            @foreach(explode(',', $product->sizes) as $s)
-                                <span class="badge bg-secondary me-1 mb-1">{{ trim($s) }}</span>
-                            @endforeach
-                        @else
-                            <span class="text-muted">—</span>
-                        @endif
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="text-muted small mb-2">Màu sắc</div>
-                        @if(!empty($product->colors))
-                            @foreach(explode(',', $product->colors) as $c)
-                                <span class="badge bg-info text-dark me-1 mb-1">{{ trim($c) }}</span>
-                            @endforeach
-                        @else
-                            <span class="text-muted">—</span>
-                        @endif
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="text-muted small mb-2">Đế giày</div>
-                        @if(!empty($product->sole))
-                            @foreach(explode(',', $product->sole) as $s)
-                                <span class="badge bg-warning text-dark me-1 mb-1">{{ trim($s) }}</span>
-                            @endforeach
-                        @else
-                            <span class="text-muted">—</span>
-                        @endif
-                    </div>
-                </div>
+        {{-- Size --}}
+        @if(!empty($product->sizes))
+        <div class="mb-3">
+            <div class="fw-semibold mb-2">Size</div>
+            <div class="d-flex flex-wrap gap-2">
+                @foreach(explode(',', $product->sizes) as $s)
+                    <span class="border rounded px-3 py-1 fw-semibold" style="font-size:.9rem">{{ trim($s) }}</span>
+                @endforeach
             </div>
+        </div>
+        @endif
+
+        {{-- Màu --}}
+        @if(!empty($product->colors))
+        <div class="mb-3">
+            <div class="fw-semibold mb-2">Màu sắc</div>
+            <div class="d-flex flex-wrap gap-2">
+                @foreach(explode(',', $product->colors) as $c)
+                    <span class="badge bg-info text-dark px-3 py-2">{{ trim($c) }}</span>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
+        {{-- Đế --}}
+        @if(!empty($product->sole))
+        <div class="mb-3">
+            <div class="fw-semibold mb-2">Đế giày</div>
+            <div class="d-flex flex-wrap gap-2">
+                @foreach(explode(',', $product->sole) as $s)
+                    <span class="badge bg-warning text-dark px-3 py-2">{{ trim($s) }}</span>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
+        <hr>
+
+        {{-- Mô tả --}}
+        <div>
+            <div class="fw-semibold mb-2">Mô tả sản phẩm</div>
+            <p class="text-muted mb-0">{{ $product->description ?: '—' }}</p>
         </div>
     </div>
 </div>

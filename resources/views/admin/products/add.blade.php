@@ -3,22 +3,6 @@
 @section('content')
 <h1>Add sản phẩm</h1>
 
-@if(isset($_SESSION['error']))
-<div class="alert alert-danger alert-dismissible fade show">
-    {{ $_SESSION['error'] }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-</div>
-@php unset($_SESSION['error']); @endphp
-@endif
-
-@if(isset($_SESSION['success']))
-<div class="alert alert-success alert-dismissible fade show">
-    {{ $_SESSION['success'] }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-</div>
-@php unset($_SESSION['success']); @endphp
-@endif
-
 <form method="POST" action="{{ APP_URL }}admin/products/store" enctype="multipart/form-data" id="addForm" novalidate>
     <div class="mb-3">
         <label class="form-label">Name</label>

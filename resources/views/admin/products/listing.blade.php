@@ -2,14 +2,6 @@
 @section('title', 'danh sách sản phẩm')
 @section('content')
 
-@if(isset($_SESSION['success']))
-<div class="alert alert-success alert-dismissible fade show">
-    {{ $_SESSION['success'] }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-</div>
-@php unset($_SESSION['success']); @endphp
-@endif
-
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4 class="mb-0">Danh sách sản phẩm</h4>
     <a href="{{ APP_URL }}/admin/products/add" class="btn btn-success"><i class="fa fa-plus"></i> ADD</a>
@@ -104,10 +96,10 @@
             </td>
             <td>{{ $item->description }}</td>
             <td>
-                <a href="{{ APP_URL }}/admin/products/show/{{ $item->id }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                <a href="{{ APP_URL }}/admin/products/edit/{{ $item->id }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                <a href="{{ APP_URL }}/admin/products/show/{{ $item->id }}" class="btn btn-info btn-sm" title="Xem"><i class="fa fa-eye"></i></a>
+                <a href="{{ APP_URL }}/admin/products/edit/{{ $item->id }}" class="btn btn-primary btn-sm" title="Sửa"><i class="fa fa-edit"></i></a>
                 <form action="{{ APP_URL }}/admin/products/delete/{{ $item->id }}" method="POST" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn chắc chắn muốn xóa?')"><i class="fa fa-trash"></i> Delete</button>
+                    <button type="submit" class="btn btn-danger btn-sm" title="Xóa" onclick="return confirm('Bạn chắc chắn muốn xóa?')"><i class="fa fa-trash"></i></button>
                 </form>
             </td>
         </tr>

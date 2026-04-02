@@ -6,24 +6,6 @@
     <h2 class="mb-0">Danh sách Đơn hàng</h2>
 </div>
 
-@if(isset($_SESSION['success']))
-    <div class="alert alert-success">
-        <i class="fa fa-check-circle"></i> {{ $_SESSION['success'] }}
-    </div>
-    @php unset($_SESSION['success']); @endphp
-@endif
-
-@if(isset($_SESSION['errors']))
-    <div class="alert alert-danger">
-        @foreach($_SESSION['errors'] as $error)
-            <div>
-                <i class="fa fa-exclamation-circle"></i> {{ $error }}
-            </div>
-        @endforeach
-    </div>
-    @php unset($_SESSION['errors']); @endphp
-@endif
-
 <div style="overflow-x: auto;">
     <table class="table table-bordered">
         <thead>
@@ -73,12 +55,12 @@
                         </td>
                         <td><small class="text-muted">{{ date('d/m/Y H:i', strtotime($order->created_at ?? 'now')) }}</small></td>
                         <td>
-                            <a href="{{ APP_URL }}/admin/orders/{{ $order->id }}" class="btn btn-primary btn-sm">
-                                <i class="fa fa-eye"></i> Xem
+                            <a href="{{ APP_URL }}/admin/orders/{{ $order->id }}" class="btn btn-primary btn-sm" title="Xem">
+                                <i class="fa fa-eye"></i>
                             </a>
                             <form method="POST" action="{{ APP_URL }}/admin/orders/{{ $order->id }}/delete" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xóa đơn hàng #{{ $order->id }}?')">
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    <i class="fa fa-trash"></i> Xóa
+                                <button type="submit" class="btn btn-danger btn-sm" title="Xóa">
+                                    <i class="fa fa-trash"></i>
                                 </button>
                             </form>
                         </td>

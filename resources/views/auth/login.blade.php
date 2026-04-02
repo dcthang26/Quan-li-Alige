@@ -9,22 +9,6 @@
                 <div class="card-body p-5">
                     <h1 class="text-center mb-4"><i class="fas fa-sign-in-alt"></i> Đăng Nhập</h1>
 
-                    @if(isset($_SESSION['error']))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        {{ $_SESSION['error'] }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                    @php unset($_SESSION['error']); @endphp
-                    @endif
-
-                    @if(isset($_SESSION['success']))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ $_SESSION['success'] }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                    @php unset($_SESSION['success']); @endphp
-                    @endif
-
                     <form action="{{ APP_URL }}/login" method="POST">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>

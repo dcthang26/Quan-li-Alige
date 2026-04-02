@@ -9,11 +9,6 @@
     </a>
 </div>
 
-@if(isset($_SESSION['success']))
-    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ $_SESSION['success'] }}</div>
-    @php unset($_SESSION['success']); @endphp
-@endif
-
 @php
     $statusMap = [
         'pending'    => ['label' => 'Chờ xác nhận', 'badge' => 'warning', 'text' => 'dark', 'icon' => 'fa-clock'],

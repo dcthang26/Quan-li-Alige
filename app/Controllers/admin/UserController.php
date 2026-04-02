@@ -9,8 +9,26 @@ class UserController {
     public function index() {
         require_admin();
         $userModel = new \App\Models\UserModel();
-        $users = $userModel->all();
-        view('admin.users.listing', ['users' => $users]);
+        $all = $userModel->all();
+
+        $keyword  = trim($_GET['q'] ?? '');
+        $filterRole = $_GET['role'] ?? '';
+        $perPage  = 5;
+        $page     = max(1, intval($_GET['page'] ?? 1));
+
+        $filtered = array_filter($all, function($u) use ($keyword, $filterRole) {
+            if ($keyword && stripos($u->name, $keyword) === false && stripos($u->email, $keyword) === false) return false;
+            if ($filterRole && $u->role !== $filterRole) return false;
+            return true;
+        });
+        $filtered = array_values($filtered);
+
+        $total     = count($filtered);
+        $totalPages = max(1, ceil($total / $perPage));
+        $page      = min($page, $totalPages);
+        $users     = array_slice($filtered, ($page - 1) * $perPage, $perPage);
+
+        view('admin.users.listing', compact('users', 'total', 'page', 'totalPages', 'perPage', 'keyword', 'filterRole'));
     }
 
     /**

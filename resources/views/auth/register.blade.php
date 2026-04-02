@@ -9,22 +9,6 @@
                 <div class="card-body p-5">
                     <h1 class="text-center mb-4"><i class="fas fa-user-plus"></i> Đăng Ký</h1>
 
-                    @if(isset($_SESSION['error']))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        {{ $_SESSION['error'] }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                    @php unset($_SESSION['error']); @endphp
-                    @endif
-
-                    @if(isset($_SESSION['success']))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ $_SESSION['success'] }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                    @php unset($_SESSION['success']); @endphp
-                    @endif
-
                     <form action="{{ APP_URL }}/register" method="POST" id="registerForm" novalidate>
                         <div class="mb-3">
                             <label for="name" class="form-label">Tên đầy đủ</label>

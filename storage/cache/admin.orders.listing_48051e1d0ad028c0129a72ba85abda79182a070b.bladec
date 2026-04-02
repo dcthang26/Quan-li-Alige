@@ -6,27 +6,6 @@
  <h2 class="mb-0">Danh sách Đơn hàng</h2>
 </div>
 
-<?php if(isset($_SESSION['success'])): ?>
- <div class="alert alert-success">
- <i class="fa fa-check-circle"></i> <?php echo \htmlentities($_SESSION['success']??'', ENT_QUOTES, 'UTF-8', false); ?>
-
- </div>
- <?php unset($_SESSION['success']);  ?>
-<?php endif; ?>
-
-<?php if(isset($_SESSION['errors'])): ?>
- <div class="alert alert-danger">
- <?php $__currentLoopData = $_SESSION['errors']; $this->addLoop($__currentLoopData);$this->getFirstLoop();
- foreach($__currentLoopData as $error): $loop = $this->incrementLoopIndices();  ?>
- <div>
- <i class="fa fa-exclamation-circle"></i> <?php echo \htmlentities($error??'', ENT_QUOTES, 'UTF-8', false); ?>
-
- </div>
- <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
- </div>
- <?php unset($_SESSION['errors']);  ?>
-<?php endif; ?>
-
 <div style="overflow-x: auto;">
  <table class="table table-bordered">
  <thead>
@@ -78,12 +57,12 @@
  </td>
  <td><small class="text-muted"><?php echo \htmlentities(date('d/m/Y H:i', strtotime($order->created_at ?? 'now'))??'', ENT_QUOTES, 'UTF-8', false); ?></small></td>
  <td>
- <a href="<?php echo \htmlentities(APP_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/admin/orders/<?php echo \htmlentities($order->id??'', ENT_QUOTES, 'UTF-8', false); ?>" class="btn btn-primary btn-sm">
- <i class="fa fa-eye"></i> Xem
+ <a href="<?php echo \htmlentities(APP_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/admin/orders/<?php echo \htmlentities($order->id??'', ENT_QUOTES, 'UTF-8', false); ?>" class="btn btn-primary btn-sm" title="Xem">
+ <i class="fa fa-eye"></i>
  </a>
  <form method="POST" action="<?php echo \htmlentities(APP_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/admin/orders/<?php echo \htmlentities($order->id??'', ENT_QUOTES, 'UTF-8', false); ?>/delete" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xóa đơn hàng #<?php echo \htmlentities($order->id??'', ENT_QUOTES, 'UTF-8', false); ?>?')">
- <button type="submit" class="btn btn-danger btn-sm">
- <i class="fa fa-trash"></i> Xóa
+ <button type="submit" class="btn btn-danger btn-sm" title="Xóa">
+ <i class="fa fa-trash"></i>
  </button>
  </form>
  </td>

@@ -156,19 +156,6 @@
         </p>
     </div>
     
-    <!-- Hiển thị lỗi validation -->
-    @if(isset($_SESSION['errors']))
-        <div class="alert alert-danger">
-            <strong><i class="fa fa-exclamation-circle"></i> Lỗi:</strong>
-            <ul>
-                @foreach($_SESSION['errors'] as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @php unset($_SESSION['errors']); @endphp
-    @endif
-    
     <form action="{{ APP_URL }}/admin/users/update/{{ $user->id }}" method="POST">
         <!-- Tên User -->
         <div class="form-group">

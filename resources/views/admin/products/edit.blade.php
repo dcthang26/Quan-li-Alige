@@ -3,14 +3,6 @@
 @section('content')
 <h1>Edit sản phẩm</h1>
 
-@if(isset($_SESSION['error']))
-<div class="alert alert-danger alert-dismissible fade show">
-    {{ $_SESSION['error'] }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-</div>
-@php unset($_SESSION['error']); @endphp
-@endif
-
 <form method="POST" action="{{ APP_URL }}admin/products/update/{{ $productCurrent->id }}" enctype="multipart/form-data">
     <div class="mb-3">
         <label class="form-label">Name</label>

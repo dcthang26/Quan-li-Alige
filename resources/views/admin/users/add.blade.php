@@ -131,19 +131,6 @@
 <div class="form-container">
     <div class="form-title">Thêm User Mới</div>
     
-    <!-- Hiển thị lỗi validation -->
-    @if(isset($_SESSION['errors']))
-        <div class="alert alert-danger">
-            <strong><i class="fa fa-exclamation-circle"></i> Lỗi:</strong>
-            <ul>
-                @foreach($_SESSION['errors'] as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @php unset($_SESSION['errors']); @endphp
-    @endif
-    
     <div class="password-info">
         <i class="fa fa-info-circle"></i> <strong>Yêu cầu mật khẩu:</strong> Tối thiểu 6 ký tự
     </div>

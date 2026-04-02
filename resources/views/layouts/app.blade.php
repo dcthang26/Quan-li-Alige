@@ -16,13 +16,13 @@
     @yield('css') <!-- Thêm CSS riêng nếu cần -->
 </head>
 
-<body>
+<body class="d-flex flex-column" style="min-height:100vh">
 
     <!-- Header -->
     @include('blocks.header')
 
-    <div class="container-fluid">
-        <div class="row">
+    <div class="container-fluid flex-grow-1 d-flex p-0">
+        <div class="row g-0 w-100">
             <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 d-md-block bg-dark sidebar">
                 @include('blocks.sidebar')
@@ -40,6 +40,40 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    @if(isset($_SESSION['success']) || isset($_SESSION['errors']) || isset($_SESSION['error']))
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index:9999">
+        @if(isset($_SESSION['success']))
+        <div class="toast align-items-center text-bg-success border-0 show mb-2" role="alert">
+            <div class="d-flex">
+                <div class="toast-body"><i class="fas fa-check-circle me-2"></i>{{ $_SESSION['success'] }}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+        @php unset($_SESSION['success']); @endphp
+        @endif
+        @if(isset($_SESSION['error']))
+        <div class="toast align-items-center text-bg-danger border-0 show mb-2" role="alert">
+            <div class="d-flex">
+                <div class="toast-body"><i class="fas fa-exclamation-circle me-2"></i>{{ $_SESSION['error'] }}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+        @php unset($_SESSION['error']); @endphp
+        @endif
+        @if(isset($_SESSION['errors']))
+        <div class="toast align-items-center text-bg-danger border-0 show mb-2" role="alert">
+            <div class="d-flex">
+                <div class="toast-body"><i class="fas fa-exclamation-circle me-2"></i>
+                    @foreach($_SESSION['errors'] as $err){{ $err }}<br>@endforeach
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+        @php unset($_SESSION['errors']); @endphp
+        @endif
+    </div>
+    @endif
 
     @yield('js') <!-- Thêm JavaScript riêng nếu cần -->
 </body>
