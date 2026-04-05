@@ -1,0 +1,63 @@
+@extends('layouts.app')
+@section('title', 'Add sản phẩm')
+@section('content')
+<h1>Add sản phẩm</h1>
+
+<form method="POST" action="{{ APP_URL }}admin/products/store" enctype="multipart/form-data" id="addForm" novalidate>
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" name="name">
+        <div class="invalid-feedback">Tên sản phẩm không được để trống.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Price</label>
+        <input type="number" class="form-control" name="price" min="1" step="any">
+        <div class="invalid-feedback">Giá phải lớn hơn 0.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Image</label>
+        <input type="file" class="form-control" name="image" accept="image/*">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Quantity</label>
+        <input type="number" class="form-control" name="quantity" min="0">
+        <div class="invalid-feedback">Số lượng không hợp lệ.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" name="description" rows="3"></textarea>
+        <div class="invalid-feedback">Mô tả không được để trống.</div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Size <small class="text-muted">(phân cách bằng dấu phẩy, VD: 38,39,40,41,42)</small></label>
+        <input type="text" class="form-control" name="sizes" placeholder="38,39,40,41,42">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Màu sắc <small class="text-muted">(phân cách bằng dấu phẩy, VD: Đỏ,Xanh,Đen)</small></label>
+        <input type="text" class="form-control" name="colors" placeholder="Đỏ,Xanh,Đen,Trắng">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Đế giày <small class="text-muted">(phân cách bằng dấu phẩy, VD: mềm,cứng,dẻo)</small></label>
+        <input type="text" class="form-control" name="sole" placeholder="mềm,cứng,dẻo">
+    </div>
+    <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+document.getElementById('addForm').addEventListener('submit', function (e) {
+    let valid = true;
+    const fields = [
+        { el: this.querySelector('[name=name]'),        ok: v => v.trim() !== '' },
+        { el: this.querySelector('[name=price]'),       ok: v => v !== '' && parseFloat(v) > 0 },
+        { el: this.querySelector('[name=quantity]'),    ok: v => v !== '' && parseInt(v) >= 0 },
+        { el: this.querySelector('[name=description]'), ok: v => v.trim() !== '' },
+    ];
+    fields.forEach(({ el, ok }) => {
+        const pass = ok(el.value);
+        el.classList.toggle('is-invalid', !pass);
+        if (!pass) valid = false;
+    });
+    if (!valid) e.preventDefault();
+});
+</script>
+@endsection
