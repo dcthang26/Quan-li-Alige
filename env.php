@@ -1,6 +1,6 @@
 <?php
 //Đường dẫn website
-const APP_URL = "http://localhost/ASM2/";
+const APP_URL = "http://localhost/Quan-li-Alige-main/";
 //Thư mục gốc
 const APP_DIR = __DIR__;
 
@@ -11,4 +11,4 @@ const USERNAME = "root";
 const PASSWORD = "";
 const PORT = 3306;
 //Upload Path
-const IMAGE_UPLOAD_PATH = "http://localhost/ASM2/storage/images/";
+const IMAGE_UPLOAD_PATH = "http://localhost/Quan-li-Alige-main/storage/images/";
