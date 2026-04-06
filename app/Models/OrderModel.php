@@ -48,7 +48,7 @@ class OrderModel extends BaseModel
         $sql = "SELECT o.*, u.name AS user_name, u.email AS user_email
                 FROM {$this->table} AS o
                 LEFT JOIN users AS u ON o.user_id = u.id
-                ORDER BY o.created_at DESC";
+                ORDER BY o.id ASC";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();

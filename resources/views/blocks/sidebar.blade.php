@@ -1,28 +1,109 @@
-<div class="d-flex flex-column p-3 text-white bg-dark" style="min-height: 100vh; overflow-y: auto;">
-    <ul class="nav nav-pills flex-column mb-auto">
+<style>
+.sidebar-wrap {
+    min-height: 100vh;
+    background: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    padding: 20px 12px;
+    overflow-y: auto;
+}
+.sidebar-wrap .nav-link {
+    color: #374151;
+    font-size: 0.88rem;
+    font-weight: 500;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+.sidebar-wrap .nav-link:hover {
+    background: #f1f5f9;
+    color: #111827;
+}
+.sidebar-wrap .nav-link.active {
+    background: #eff6ff;
+    color: #111827;
+    font-weight: 700;
+}
+.sidebar-wrap .nav-link i {
+    width: 18px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #9ca3af;
+    transition: color 0.2s;
+}
+.sidebar-wrap .nav-link:hover i { color: #374151; }
+.sidebar-wrap .nav-link.active i { color: #374151; }
+
+.sidebar-wrap .nav-link.blue-item {
+    color: #374151;
+    font-weight: 600;
+}
+.sidebar-wrap .nav-link.blue-item i { color: #374151; }
+.sidebar-wrap .nav-link.blue-item:hover {
+    background: #dbeafe;
+    color: #1e40af;
+}
+.sidebar-wrap .nav-link.blue-item.active {
+    background: #1d4ed8;
+    color: #ffffff;
+    font-weight: 700;
+}
+.sidebar-wrap .nav-link.blue-item.active i { color: #ffffff; }
+
+.sidebar-divider {
+    height: 1px;
+    background: #e2e8f0;
+    margin: 12px 4px;
+}
+.sidebar-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #9ca3af;
+    padding: 0 14px;
+    margin-bottom: 6px;
+    margin-top: 4px;
+}
+</style>
+
+<div class="sidebar-wrap">
+    <ul class="nav flex-column mb-auto">
+        <div class="sidebar-label">Tổng quan</div>
         <li class="nav-item">
-            <a href="{{ route('admin/dashboard') }}" class="nav-link text-white {{ strpos($_SERVER['REQUEST_URI'], '/admin/dashboard') !== false || $_SERVER['REQUEST_URI'] === '/ASM2/admin/' ? 'active' : '' }}">
-                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+            <a href="{{ route('admin/dashboard') }}" class="nav-link {{ strpos($_SERVER['REQUEST_URI'], '/admin/dashboard') !== false || $_SERVER['REQUEST_URI'] === '/ASM2/admin/' ? 'active' : '' }}">
+                <i class="fas fa-tachometer-alt"></i>Dashboard
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('admin/products') }}" class="nav-link text-white {{ strpos($_SERVER['REQUEST_URI'], '/admin/products') !== false ? 'active' : '' }}">
-                <i class="fas fa-box me-2"></i>Quản lý sản phẩm
+            <a href="{{ route('admin/products') }}" class="nav-link {{ strpos($_SERVER['REQUEST_URI'], '/admin/products') !== false ? 'active' : '' }}">
+                <i class="fas fa-box"></i>Quản lý sản phẩm
+            </a>
+        </li>
+
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Quản lý</div>
+
+        <li class="nav-item">
+            <a href="{{ route('admin/orders') }}" class="nav-link blue-item {{ strpos($_SERVER['REQUEST_URI'], '/admin/orders') !== false ? 'active' : '' }}">
+                <i class="fas fa-receipt"></i>Quản lý đơn hàng
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('admin/orders') }}" class="nav-link text-white {{ strpos($_SERVER['REQUEST_URI'], '/admin/orders') !== false ? 'active' : '' }}">
-                <i class="fas fa-receipt me-2"></i>Quản lý đơn hàng
+            <a href="{{ route('admin/users') }}" class="nav-link blue-item {{ strpos($_SERVER['REQUEST_URI'], '/admin/users') !== false ? 'active' : '' }}">
+                <i class="fas fa-users"></i>Quản lý Users
             </a>
         </li>
+
+        <div class="sidebar-divider"></div>
+
         <li class="nav-item">
-            <a href="{{ route('admin/users') }}" class="nav-link text-white {{ strpos($_SERVER['REQUEST_URI'], '/admin/users') !== false ? 'active' : '' }}">
-                <i class="fas fa-users me-2"></i>Quản lý Users
-            </a>
-        </li>
-        <li class="nav-item mt-3">
-            <a href="{{ route('list') }}" class="nav-link text-white">
-                <i class="fas fa-store me-2"></i>Xem cửa hàng
+            <a href="{{ route('list') }}" class="nav-link">
+                <i class="fas fa-store"></i>Xem cửa hàng
             </a>
         </li>
     </ul>

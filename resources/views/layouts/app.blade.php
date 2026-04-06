@@ -24,7 +24,7 @@
     <div class="container-fluid flex-grow-1 d-flex p-0">
         <div class="row g-0 w-100">
             <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 d-md-block bg-dark sidebar">
+            <div class="col-md-3 col-lg-2 d-md-block bg-white sidebar">
                 @include('blocks.sidebar')
             </div>
 
