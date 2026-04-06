@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Chi tiết Đơn hàng #{{ $order->id }}')
+@section('title', 'Chi tiết Đơn hàng')
 @section('css')
 <style>
 :root {

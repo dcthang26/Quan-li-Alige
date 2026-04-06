@@ -22,7 +22,7 @@ body { background: var(--bg); }
     animation: fadeUp 0.5s ease;
 }
 .form-page-header {
-    background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 60%, #3b82f6 100%);
     border-radius: 20px 20px 0 0;
     padding: 24px 32px;
     color: white;
@@ -53,7 +53,7 @@ body { background: var(--bg); }
     background: var(--card);
     border-radius: 0 0 20px 20px;
     padding: 32px;
-    box-shadow: 0 8px 32px rgba(245,158,11,0.1);
+    box-shadow: 0 8px 32px rgba(29,78,216,0.15);
 }
 
 .section-title {
@@ -113,8 +113,8 @@ body { background: var(--bg); }
 .field-hint { font-size: 0.78rem; color: var(--muted); margin-top: 5px; }
 
 .pw-section {
-    background: linear-gradient(135deg, #fffbeb, #fef3c7);
-    border: 1.5px solid #fde68a;
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    border: 1.5px solid #bfdbfe;
     border-radius: 14px;
     padding: 20px;
     margin-bottom: 24px;
@@ -122,7 +122,7 @@ body { background: var(--bg); }
 .pw-section-title {
     font-size: 0.82rem;
     font-weight: 700;
-    color: #92400e;
+    color: #1e40af;
     margin-bottom: 14px;
     display: flex;
     align-items: center;
@@ -130,7 +130,7 @@ body { background: var(--bg); }
 }
 .pw-section-hint {
     font-size: 0.78rem;
-    color: #b45309;
+    color: #1d4ed8;
     margin-bottom: 14px;
     display: flex;
     align-items: center;
@@ -204,16 +204,16 @@ body { background: var(--bg); }
     padding: 12px;
     border-radius: 12px;
     border: none;
-    background: linear-gradient(135deg, #f59e0b, #f97316);
+    background: linear-gradient(135deg, #1d4ed8, #3b82f6);
     color: white;
     font-weight: 700;
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.2s;
     display: flex; align-items: center; justify-content: center; gap: 8px;
-    box-shadow: 0 4px 14px rgba(245,158,11,0.35);
+    box-shadow: 0 4px 14px rgba(29,78,216,0.35);
 }
-.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,158,11,0.45); }
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(29,78,216,0.45); }
 
 .alert-errors {
     background: #fef2f2;
