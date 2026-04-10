@@ -56,8 +56,8 @@ class UserDashboardController
         UserModel::update($_SESSION['user']->id, ['avatar' => $path]);
         $userModel = new UserModel();
         $_SESSION['user'] = $userModel->findByEmail($_SESSION['user']->email);
-        session_flash('success', 'Cập nhật ảnh đại diện thành công');
-        redirect('/user/profile');
+        $_SESSION['success'] = 'Ảnh đại diện đã thay đổi thành công';
+        redirect('/');
     }
 
     public function updateProfile()
@@ -67,11 +67,11 @@ class UserDashboardController
         $email = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
 
         if (empty($name) || empty($email)) {
-            session_flash('error', 'Vui lòng nhập đầy đủ thông tin');
+            $_SESSION['error'] = 'Vui lòng nhập đầy đủ thông tin';
             return redirect('/user/profile');
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            session_flash('error', 'Email không hợp lệ');
+            $_SESSION['error'] = 'Email không hợp lệ';
             return redirect('/user/profile');
         }
 
@@ -79,8 +79,8 @@ class UserDashboardController
         UserModel::update($_SESSION['user']->id, ['name' => $name, 'email' => $email]);
         $updated = $userModel->findByEmail($email);
         $_SESSION['user'] = $updated;
-        session_flash('success', 'Cập nhật thông tin thành công');
-        redirect('/user/profile');
+        $_SESSION['success'] = 'Thông tin cá nhân đã thay đổi thành công';
+        redirect('/');
     }
 
     public function changePassword()
